@@ -1,22 +1,26 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
 import QuotesBox from "~/components/quoteBox";
+import Header from "~/components/Header";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Quote Generator App" },
+    { name: "description", content: "Generate inspiring quotes!" },
   ];
 }
 
 export default function Home() {
   return (
-  <>
-  <Welcome />
-  <main style={{ padding: 40, backgroundColor: '#111', minHeight: '100hv', color: '#eee'}}>
-    <h1 style={{ textAlign: 'center'}}>Quote Generator</h1>
-    <QuotesBox />
-  </main>
-  </>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main style={{
+        padding: '40px',
+        backgroundColor: '#121212',
+        color: '#eeeeee',
+        flex: 1
+      }}>
+        <QuotesBox />
+      </main>
+    </div>
   );
 }
