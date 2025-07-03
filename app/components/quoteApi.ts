@@ -18,3 +18,10 @@ export async function fetchQuote() {
     throw error;
   }
 }
+
+export const searchQuotes = async (query: string) => {
+  const response = await fetch ('https://api.quotable.io/search/quotes?query=${encodeURIComponent(query)}');
+  if (!response.ok) throw new Error("Failed to fetch quotes.");
+  const data = await response.json();
+  return data.results;
+};

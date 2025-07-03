@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchQuote } from './quoteApi';
 import { containerStyle, titleStyle, quoteStyle, authorStyle, buttonBaseStyle,} from './quoteBoxStyles';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface QuoteBoxProps {
   onFavorite?: (quote: string, author: string) => void;
@@ -68,10 +69,18 @@ export default function QuoteBox({ onFavorite }: { onFavorite: (quote: string, a
       ) : error ? (
         <p style={{ color: '#f87171' }}>{error}</p>
       ) : (
-        <>
-          <p style={quoteStyle}>"{quote}"</p>
-          <p style={authorStyle}>— {author}</p>
-        </>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={quote}  // key triggers animation on content change
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+          >        
+            <p style={quoteStyle}>"{quote}"</p>
+            <p style={authorStyle}>— {author}</p>
+        </motion.div>
+        </AnimatePresence>
       )}
 
       <button
