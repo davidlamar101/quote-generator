@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { fetchQuote } from './quoteApi';
 import { containerStyle, titleStyle, quoteStyle, authorStyle, buttonBaseStyle,} from './quoteBoxStyles';
 
-export default function QuoteBox() {
+export interface QuoteBoxProps {
+  onFavorite?: (quote: string, author: string) => void;
+}
+
+export default function QuoteBox({ onFavorite }: { onFavorite: (quote: string, author: string) => void }) {
   const [quote, setQuote] = useState('');
   const [author, setAuthor] = useState('');
   const [loading, setLoading] = useState(true);
@@ -23,6 +27,10 @@ export default function QuoteBox() {
       setLoading(false);
     }
   };
+
+  const handleFavorite = () => {
+    onFavorite(quote, author);
+  }
 
   useEffect(() => {
     getNewQuote();
@@ -68,13 +76,22 @@ export default function QuoteBox() {
 
       <button
         onClick={getNewQuote}
-        disabled={loading}
-        style={buttonStyle}
+        style={{ ...buttonStyle }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
         New Quote
       </button>
+            {!loading && !error && (
+        <button
+          onClick={handleFavorite}
+          style={{ ...buttonStyle, marginLeft: '10px', backgroundColor: '#e29a4a' }}  
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
+          ❤️ Favorite
+        </button>
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import type { Route } from "./+types/home";
 import { useState, useEffect } from "react";
 import QuotesBox from "~/components/quoteBox";
 import Header from "~/components/Header";
+import FavoritesList from "~/components/FavoritesList";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,8 +13,14 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const [isDark, setIsDark] = useState(false);
+  const [favorites, setFavorites] = useState<{ quote: string; author: string }[]>([]);
 
-  // Optional: persist theme in localStorage & sync with document class
+  // Remove favorite by index
+  const handleRemoveFavorite = (index: number) => {
+    setFavorites((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Load theme preference from local storage
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -25,6 +32,7 @@ export default function Home() {
     }
   }, []);
 
+  // Toggle dark/light mode
   function toggleTheme() {
     if (isDark) {
       document.documentElement.classList.remove("dark");
@@ -37,9 +45,14 @@ export default function Home() {
     }
   }
 
+  // Add new favorite
+  const addFavorite = (quote: string, author: string) => {
+    setFavorites((prev) => [...prev, { quote, author }]);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Header onToggleTheme={toggleTheme} isDarkMode={isDark} />
+      <Header onToggleTheme={toggleTheme} isDarkMode={isDark} favorites={favorites} />
       <main
         style={{
           padding: "40px",
@@ -48,7 +61,13 @@ export default function Home() {
           flex: 1,
         }}
       >
-        <QuotesBox />
+        <QuotesBox onFavorite={addFavorite} />
+
+        {/* Favorites List Display */}
+        <div style={{ marginTop: "40px" }}>
+          <h3 style={{ fontSize: "1.5rem", marginBottom: "20px" }}>❤️ Favorite Quotes</h3>
+          <FavoritesList favorites={favorites} onRemove={handleRemoveFavorite} />
+        </div>
       </main>
     </div>
   );

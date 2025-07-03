@@ -8,18 +8,6 @@ export function Welcome() {
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vvw] p-4">
-
-            {/* <img
-              src={logoLight}
-              alt="Quote Generator"
-              className="block w-full dark:hidden"
-            /> */}
-
-            {/* <img
-              src={logoFlowers}
-              alt="Quote Generator"
-              className="hidden w-full dark:block"
-            /> */}
           </div>
           <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
             Welcome to the Quote Generator App

@@ -45,3 +45,17 @@ export const buttonBaseStyle = {
   marginTop: '30px',
   color: '#fff',
 };
+
+
+export const buttonStyle = {
+  backgroundColor: '#4a90e2',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '10px',
+  padding: '14px 28px',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  boxShadow: '0 6px 18px rgba(0,0,0,0.5)',
+  transition: 'all 0.3s ease',
+  marginTop: '30px',
+};
