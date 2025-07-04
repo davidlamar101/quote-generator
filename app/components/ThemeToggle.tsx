@@ -11,15 +11,17 @@ export default function ThemeToggle() {
     }
   };
 
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      const isDarkPref = localStorage.getItem('theme') === 'dark';
-      if (isDarkPref) {
-        document.documentElement.classList.add('dark');
-        setIsDark(true);
-      }
+useEffect(() => {
+  if (typeof document !== 'undefined') {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
     }
-  }, []);
+  }
+}, []);
 
   return (
 <button

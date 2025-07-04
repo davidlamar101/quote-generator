@@ -46,7 +46,6 @@ export const buttonBaseStyle = {
   color: '#fff',
 };
 
-
 export const buttonStyle = {
   backgroundColor: '#4a90e2',
   color: '#fff',
@@ -58,4 +57,17 @@ export const buttonStyle = {
   boxShadow: '0 6px 18px rgba(0,0,0,0.5)',
   transition: 'all 0.3s ease',
   marginTop: '30px',
+};
+
+export const primaryButtonStyle = {
+  ...buttonBaseStyle,
+  backgroundColor: '#4a90e2',
+  cursor: 'pointer',
+};
+
+export const colors = {
+  primary: '#4a90e2',
+  secondary: '#e29a4a',
+  backgroundGradient: 'linear-gradient(135deg, rgba(30,30,60,0.85), rgba(50,50,80,0.85))(135deg, rgba(30,30,60,0.85), rgba(50,50,80,0.85))',
+  textLight: '#f0f0f0',
 };

@@ -3,14 +3,17 @@ import { AppBar, Box, Toolbar, Typography, Button, IconButton, Menu, MenuItem } 
 import MenuIcon from '@mui/icons-material/Menu';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   onToggleTheme?: () => void;
   isDarkMode?: boolean;
+  favorites?: { quote: string; author: string }[];  // <-- add this line
 }
 
-export default function Header({ onToggleTheme, isDarkMode }: HeaderProps) {
+export default function Header({ onToggleTheme, isDarkMode, favorites }: HeaderProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +21,11 @@ export default function Header({ onToggleTheme, isDarkMode }: HeaderProps) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const goToFavorites = () => {
+    navigate('/favorites', { state: { favorites } });
+    handleMenuClose();
   };
 
   return (
@@ -29,6 +37,8 @@ export default function Header({ onToggleTheme, isDarkMode }: HeaderProps) {
             edge="start"
             color="inherit"
             aria-label="menu"
+            aria-controls={Boolean(anchorEl) ? 'menu-appbar' : undefined}
+            aria-haspopup="true"
             onClick={handleMenuOpen}
             sx={{ mr: 2 }}
           >
@@ -36,11 +46,7 @@ export default function Header({ onToggleTheme, isDarkMode }: HeaderProps) {
           </IconButton>
 
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-            <MenuItem onClick={handleMenuClose}>
-              <a href="/favorites" style={{ textDecoration: 'none', color: 'inherit' }}>
-                My Favorite Quotes
-              </a>
-            </MenuItem>
+            <MenuItem onClick={goToFavorites}>My Favorite Quotes</MenuItem>
           </Menu>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

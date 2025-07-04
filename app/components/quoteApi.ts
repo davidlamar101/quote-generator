@@ -1,4 +1,11 @@
-export async function fetchQuote() {
+interface Quote {
+  _id: string;
+  content: string;
+  author: string;
+  // any other fields from API
+}
+
+export async function fetchQuote(): Promise<{ quote: string; author: string }> {
   try {
     const response = await fetch("https://api.quotable.io/random", {
       headers: {
@@ -19,9 +26,14 @@ export async function fetchQuote() {
   }
 }
 
-export const searchQuotes = async (query: string) => {
-  const response = await fetch ('https://api.quotable.io/search/quotes?query=${encodeURIComponent(query)}');
-  if (!response.ok) throw new Error("Failed to fetch quotes.");
-  const data = await response.json();
-  return data.results;
+export const searchQuotes = async (query: string): Promise<Quote[]> => {
+  try {
+    const response = await fetch(`https://api.quotable.io/search/quotes?query=${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error("Failed to fetch quotes.");
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error("Error searching quotes:", error);
+    throw error;
+  }
 };
